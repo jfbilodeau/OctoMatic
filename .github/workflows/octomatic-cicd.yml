@@ -65,8 +65,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           # Checkout only the infra/ directory
-          filter: |
-            infra/**
+          filter: infra
 
       - name: Sign in to Azure
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
