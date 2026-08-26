@@ -57,7 +57,7 @@ jobs:
           path: artifacts/OctoMatic.zip
           if-no-files-found: error
 
-  deploy:
+  env:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
@@ -86,6 +86,10 @@ jobs:
             --only-show-errors \
             --output table
 
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Download production package
         uses: actions/download-artifact@v4
         with:
