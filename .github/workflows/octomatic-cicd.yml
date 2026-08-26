@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   # Name of the job
-  build-and-test:
+  build:
     # Runner
     runs-on: ubuntu-latest
 
