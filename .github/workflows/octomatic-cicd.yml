@@ -3,10 +3,7 @@ name: OctaMatic CI/CD
 # Triggers
 on:
   push:
-    branches: 
-    - main
-    - jf
-    - feature1
+    branches: [main]
   pull_request:
     branches: [main, jf, feature1]
 
