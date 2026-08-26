@@ -57,6 +57,10 @@ jobs:
           path: artifacts/OctoMatic.zip
           if-no-files-found: error
 
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Sign in to Azure
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: azure/login@v3
