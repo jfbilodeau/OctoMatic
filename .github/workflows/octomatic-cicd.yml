@@ -15,6 +15,7 @@ permissions:
 env:
   AZURE_LOCATION: canadaeast
   AZURE_RESOURCE_GROUP: OctoMatic
+  AZURE_WEBAPP_NAME: octomatic
 
 jobs:
   # Name of the job
@@ -72,5 +73,18 @@ jobs:
             --resource-group "$AZURE_RESOURCE_GROUP" \
             --template-file infra/main.bicep \
             --parameters location="$AZURE_LOCATION" \
+            --only-show-errors \
+            --output table
+
+      - name: Deploy application to App Service
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          az webapp deploy \
+            --resource-group "$AZURE_RESOURCE_GROUP" \
+            --name "$AZURE_WEBAPP_NAME" \
+            --src-path artifacts/OctoMatic.zip \
+            --type zip \
+            --clean true \
+            --restart true \
             --only-show-errors \
             --output table
