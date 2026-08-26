@@ -89,6 +89,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    needs:
+      - build
+      - env
+
     steps:
       - name: Download production package
         uses: actions/download-artifact@v4
