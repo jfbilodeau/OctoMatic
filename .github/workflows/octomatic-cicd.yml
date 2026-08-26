@@ -12,6 +12,10 @@ permissions:
   contents: read
   id-token: write
 
+env:
+  AZURE_LOCATION: canadaeast
+  AZURE_RESOURCE_GROUP: OctoMatic
+
 jobs:
   # Name of the job
   build:
@@ -53,8 +57,20 @@ jobs:
           if-no-files-found: error
 
       - name: Sign in to Azure
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: azure/login@v3
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy Azure infrastructure
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          az deployment group create \
+            --name "octomatic-${{ github.run_id }}-${{ github.run_attempt }}" \
+            --resource-group "$AZURE_RESOURCE_GROUP" \
+            --template-file infra/main.bicep \
+            --parameters location="$AZURE_LOCATION" \
+            --only-show-errors \
+            --output table
