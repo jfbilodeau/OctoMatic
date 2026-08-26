@@ -3,7 +3,6 @@ name: OctaMatic CI/CD
 # Triggers
 on:
   push:
-    branches: [main]
   pull_request:
     branches: [main, jf, feature1]
 #   workflow_dispatch:
